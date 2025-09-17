@@ -23,7 +23,7 @@ This program supports the following relational algebra operations:
 The CLI accepts commands to process relational algebra queries on your input data. Key features and commands include:
 
 - **Query:**  
-    Enter a relational algebra expression to be processed.
+    Enter a relational algebra expression to be processed.  
     Example:  
     ```
     Query: project SID, Name (select Age = 50 (Students))
