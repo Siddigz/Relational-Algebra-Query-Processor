@@ -8,9 +8,10 @@ class Relation:
         self.attrIndex = {attr:i for i, attr in enumerate(attr)}
     
     def __str__(self):
-        result = f"{self.name} = {{ {', '.join(self.attr)}\n"
+        result = f"{self.name} = {{{', '.join(self.attr)}}}\n"
         for row in self.tuples:
-            result += f"  {', '.join(str(val) for val in row)}\n"
+            value = [f'"{val}"' for val in row]
+            result += f"  {', '.join(value)}\n"
         result += "}"
         return result
     
@@ -46,7 +47,7 @@ class Processor:
             if(self._evaluate_condition(row, relation, condition)):
                 result.append(row)
 
-        return Relation(f"select_{condition.replace(" ", "_")}({relName})", relation.get_attrs(), result)
+        return Relation(relName, relation.attr, result)
     
     def projection(self, relName, attributes):
         relation = self.get_relation(relName)
@@ -77,9 +78,9 @@ class Processor:
             if(tuple(row) in rel2_set):
                 commons.append(row)
         
-        return Relation(f"{rel1Name}_intersection_{rel2Name}", rel1.get_attrs(), commons)
+        return Relation(f"{rel1Name}_intersection_{rel2Name}", rel1.attr, commons)
     
-    def join(self, rel1Name, rel2Name):
+    def join(self, rel1Name, rel2Name, condition = None):
         rel1 = self.get_relation(rel1Name)
         rel2 = self.get_relation(rel2Name)
         commons = set(rel1.attr) & set(rel2.attr)
@@ -113,7 +114,7 @@ class Processor:
         rel2 = self.get_relation(rel2Name)
 
         if(rel1.attr != rel2.attr):
-            return ValueError("Relations must have the same attributes to do a union operations.")
+            raise ValueError("Relations must have the same attributes to do a union operations.")
 
         allPairs = rel1.tuples + rel2.tuples
         uniquePairs = []
@@ -124,7 +125,7 @@ class Processor:
                 seen.add(key)
                 uniquePairs.append(row)
         
-        return Relation(f"{rel1Name}_union_{rel2Name}", rel1.get_attrs(), uniquePairs)
+        return Relation(f"{rel1Name}_union_{rel2Name}", rel1.attr, uniquePairs)
 
     def difference(self, rel1Name, rel2Name):
         rel1 = self.get_relation(rel1Name)
@@ -139,7 +140,7 @@ class Processor:
             if(tuple(row) not in rel2_set):
                 diff.append(row)
 
-        return Relation(f"{rel1Name}_difference_{rel2Name}", rel1.get_attrs(), diff)
+        return Relation(f"{rel1Name}_difference_{rel2Name}", rel1.attr, diff)
 
     def _evaluate_condition(self, row, relation: Relation, condition):
         condition = condition.strip()

@@ -1,11 +1,13 @@
-// Test the specification requirement: πName(σAge > 30(Employees))
-Employees (EID, Name, Age, Department) = {
-  E1, John, 32, IT
-  E2, Alice, 28, HR
-  E3, Bob, 29, IT
-  E4, Carol, 35, Finance
+Employees (EID, Name, Age) = {
+  E1, John, 32
+  E2, Alice, 28
+  E3, Bob, 29
 }
 
-// This should be equivalent to the specification example:
-// πName(σAge > 30(Employees)) = project Name (select Age > 30 (Employees))
-Query: project Name (select Age > 30 (Employees))
+Students (SID, Name, Age, GPA) = {
+  101111111, Siddig, 100, 12.0
+  101222222, Ahmed, 50, 11.0
+  101333333, Khalid, 25, 10.0
+}
+
+Query: select Age < 30 (Students)

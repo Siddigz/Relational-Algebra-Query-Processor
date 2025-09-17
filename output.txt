@@ -1,2 +1,4 @@
-Error running query 'project Name (select Age > 30 (Employees))': 'function' object has no attribute 'attrIndex'.
+Students = {SID, Name, Age, GPA}
+  "101333333", "Khalid", "25", "10.0"
+}
 
