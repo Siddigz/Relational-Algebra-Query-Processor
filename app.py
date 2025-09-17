@@ -1,4 +1,5 @@
 import re
+#helps with expressions
 
 class Relation:
     def __init__(self, name, attr, tuples):
@@ -133,9 +134,11 @@ class Processor:
         return Relation(f"{rel1Name}_join_{rel2Name}", attrResults, resultTuples)
 
     def union(self, rel1Name, rel2Name):
+        #does a set union on two tables and it makes sure they have the same attr
         rel1 = self.get_relation(rel1Name)
         rel2 = self.get_relation(rel2Name)
 
+        #throws error if they dont share attr
         if(rel1.attr != rel2.attr):
             raise ValueError("Relations must have the same attributes to do a union operations")
 
@@ -148,6 +151,7 @@ class Processor:
                 seen.add(key)
                 uniquePairs.append(row)
         
+        #returns a new relation that contains all the unique rows from the 2 tables
         return Relation(f"{rel1Name}_union_{rel2Name}", rel1.attr, uniquePairs)
 
     def difference(self, rel1Name, rel2Name):
@@ -233,7 +237,7 @@ def parse_text(text) -> tuple[list[str], list[Relation]]:
             lineNum += 1
             continue
         
-        #relation def
+        #table start
         if( ("(" in line) and (")" in line) and ("=" in line)):
             parts = line.split("=")
         
@@ -241,6 +245,7 @@ def parse_text(text) -> tuple[list[str], list[Relation]]:
                 left = parts[0].strip()
                 right = parts[1].strip()
 
+                #relation def
                 if(right == "{"):
                     paren_pos = left.find("(")
 
@@ -250,14 +255,15 @@ def parse_text(text) -> tuple[list[str], list[Relation]]:
                         currentAttr = [attr.strip() for attr in attrPart.split(",")]
                         currentTuples = []
 
-        #end of def
+        #end of def and stores the relation
         elif(line == "}"):
             if(currentRelation and currentAttr != None):
                 relation = Relation(currentRelation, currentAttr, currentTuples)
                 relations.append(relation)
                 currentRelation = currentAttr = None
                 currentTuples = []
-    
+        
+        #stores queries  
         elif(currentRelation and currentAttr):
             if(line and (not line.startswith("//")) and (not line.startswith("Query:"))): 
                 tupleDetails = [val.strip().strip('"\'') for val in line.split(",")]
@@ -447,6 +453,7 @@ def _parse_and_run(cpu: Processor, query):
             raise ValueError(f"Unsupported query format: {query}")
 
 def main():
+    #processor object
     maker = Processor()
 
     try:
@@ -459,22 +466,26 @@ def main():
         print(f"ERROR - input.txt not found")    
         quit()
     
-    #parses text to relations and list of queries
+    #parses text to relational operations and list of queries
     queryList, relations = parse_text(text)
     print(f"Program has parsed {len(relations)} relations and {len(queryList)} queries")
 
     for rel in relations:
+        #computes every relation submitted by the user
         maker.add_relation(rel)
 
     results = []
     for query in queryList:
         try:
+            #runs all the queries requested by the user
             result = run_query(maker, query)
             results.append(result)
         except Exception as e:
+            #on error
             results.append(f"Error running query '{query}': {str(e)}")
 
     with open("output.txt", "w") as outputFile:
+        #outputs everything to the output file
         for line in results:
             outputFile.write(str(line) + "\n\n")
     
