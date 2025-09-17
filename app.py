@@ -12,8 +12,25 @@ class Relation:
         for row in self.tuples:
             value = [f'"{val}"' for val in row]
             result += f"  {', '.join(value)}\n"
-        result += "}"
+        # result += "}"
         return result
+        # result = f"{self.name} = {{{', '.join(self.attr)}}}\n"
+        # for row in self.tuples:
+        #     value = []
+        #     for val in row:
+        #         # Try to print as number if possible
+        #         try:
+        #             float_val = float(val)
+        #             # If it's an integer, print as int
+        #             if float_val.is_integer():
+        #                 value.append(str(int(float_val)))
+        #             else:
+        #                 value.append(str(float_val))
+        #         except ValueError:
+        #             value.append(f'"{val}"')
+        #     result += f"  {', '.join(value)}\n"
+        # result += "}"
+        # return result
     
     def get_attr_val(self, row, attr):
         if(attr in self.attrIndex):
@@ -64,6 +81,12 @@ class Processor:
             result.append(new)
 
         return Relation(f"project_{','.join(attributes)}({relName})", attributes, result)
+
+        # base_name = relation.name
+        # if base_name.startswith("temp_") and hasattr(relation, "source_name"):
+        #     base_name = relation.source_name
+        # return Relation(f"project_{','.join(attributes)}({base_name})", attributes, result)
+
     
     def intersection(self, rel1Name, rel2Name):
         rel1 = self.get_relation(rel1Name)
@@ -271,6 +294,11 @@ def _parse_and_run(cpu: Processor, query):
             if(rORq.startswith("(") or any(op in rORq for op in ops)):
                 nestedResult = _parse_and_run(cpu, rORq)
                 temp = f"temp_{len(cpu.relations)}"
+                # temp = f"temp_{len(cpu.relations)}"
+                # rel = Relation(temp, nestedResult.attr, nestedResult.tuples)
+                # rel.source_name = nestedResult.name if hasattr(nestedResult, "name") else temp
+                # cpu.add_relation(rel)
+                # temp = f"{len(cpu.relations)}"
                 cpu.add_relation(Relation(temp, nestedResult.attr, nestedResult.tuples))
                 result = cpu.selection(temp, condition)
                 del cpu.relations[temp]
@@ -286,6 +314,11 @@ def _parse_and_run(cpu: Processor, query):
             if(rORq.startswith("(") or any(op in rORq for op in ops)):
                 nestedResult = _parse_and_run(cpu, rORq)
                 temp = f"temp_{len(cpu.relations)}"
+                # temp = f"temp_{len(cpu.relations)}"
+                # rel = Relation(temp, nestedResult.attr, nestedResult.tuples)
+                # rel.source_name = nestedResult.name if hasattr(nestedResult, "name") else temp
+                # cpu.add_relation(rel)
+                # temp = f"{len(cpu.relations)}"
                 cpu.add_relation(Relation(temp, nestedResult.attr, nestedResult.tuples))
                 result = cpu.projection(temp, attrs)
                 del cpu.relations[temp]
