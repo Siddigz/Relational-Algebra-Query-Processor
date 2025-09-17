@@ -1,0 +1,8 @@
+
+Employees (EID, Name, Age) = {
+  E1, John, 32
+  E2, Alice, 28
+  E3, Bob, 29
+}
+
+Query: select Age > 30 (Employees)
