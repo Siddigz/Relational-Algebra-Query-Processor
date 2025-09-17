@@ -1,4 +1,21 @@
-Students = {SID, Name, Age, GPA}
-  "101333333", "Khalid", "25", "10.0"
-}
+Employees = {EID, Name, Age, Department}
+  "E1", "John", "32", "IT"
+  "E4", "Carol", "35", "Finance"
+
+
+project_Department(Employees) = {Department}
+  "IT"
+  "HR"
+  "IT"
+  "Finance"
+
+
+project_SID,Name(temp_2) = {SID, Name}
+  "101222222", "Ahmed"
+
+
+project_Name(temp_2) = {Name}
+  "Siddig"
+  "Ahmed"
+
 

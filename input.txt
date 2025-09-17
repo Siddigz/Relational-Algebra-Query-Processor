@@ -4,10 +4,31 @@ Employees (EID, Name, Age) = {
   E3, Bob, 29
 }
 
+// Table with employees of ages about 30
+Query: select Age > 30 (Employees)
+
+
+
+Employees (EID, Name, Age, Department) = {
+  E1, John, 32, IT
+  E2, Alice, 28, HR
+  E3, Bob, 29, IT
+  E4, Carol, 35, Finance
+}
+
+// Table with the departments only
+Query: project Department (Employees)
+
+
+
 Students (SID, Name, Age, GPA) = {
   101111111, Siddig, 100, 12.0
   101222222, Ahmed, 50, 11.0
   101333333, Khalid, 25, 10.0
 }
 
-Query: select Age < 30 (Students)
+// Displays student id and names of students aged 50
+Query: project SID, Name (select Age = 50 (Students))
+
+// Names of students with GPA > 10.5
+Query: project Name (select GPA > 10.5 (Students))
