@@ -1,0 +1,61 @@
+Employees1 = {EID, Name, Age}
+  "E1", "John", "32"
+
+
+project_Department(Employees2) = {Department}
+  "IT"
+  "HR"
+  "IT"
+  "Finance"
+
+
+project_SID,Name(project SID, Name (select Age = 50 (Students1))) = {SID, Name}
+  "101222222", "Ahmed"
+
+
+project_Name(project Name (select GPA > 10.5 (Students1))) = {Name}
+  "Siddig"
+  "Ahmed"
+
+
+Students2_intersection_Students1 = {SID, Name, Age, GPA}
+  "101222222", "Ahmed", "50", "11.0"
+
+
+Students3 = {SID, Name, Age, GPA}
+  "101938472", "Siddig", "100", "12.0"
+
+
+project_Name(project Name (select GPA > 10.5 (Students3))) = {Name}
+  "Siddig"
+  "Ahmed"
+  "Mo"
+
+
+Students3_union_Students2 = {SID, Name, Age, GPA}
+  "101938472", "Siddig", "100", "12.0"
+  "101527384", "Ahmed", "50", "11.0"
+  "101684293", "Khalid", "25", "10.0"
+  "101472839", "John", "30", "9.5"
+  "101395827", "Mike", "25", "10.0"
+  "101748291", "Mo", "22", "12.0"
+  "101619384", "Layla", "25", "10.0"
+  "101222222", "Ahmed", "50", "11.0"
+  "101444444", "John", "30", "9.5"
+  "101555555", "Mike", "25", "10.0"
+  "101331133", "Layla", "25", "10.0"
+
+
+Students3_intersection_Students2 = {SID, Name, Age, GPA}
+  "101748291", "Mo", "22", "12.0"
+
+
+Students3_difference_Students2 = {SID, Name, Age, GPA}
+  "101938472", "Siddig", "100", "12.0"
+  "101527384", "Ahmed", "50", "11.0"
+  "101684293", "Khalid", "25", "10.0"
+  "101472839", "John", "30", "9.5"
+  "101395827", "Mike", "25", "10.0"
+  "101619384", "Layla", "25", "10.0"
+
+
