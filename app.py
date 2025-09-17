@@ -35,7 +35,7 @@ class Relation:
     def get_attr_val(self, row, attr):
         if(attr in self.attrIndex):
             return row[self.attrIndex[attr]]
-        raise ValueError(f"Attribute '{attr} not found in relation '{self.name}'.")
+        raise ValueError(f"Attribute '{attr} not found in relation '{self.name}'")
     
     def get_attrs(self):
         return self.attr.copy()
@@ -53,7 +53,7 @@ class Processor:
     
     def get_relation(self, name):
         if(name not in self.relations):
-            raise ValueError(f"Relation '{name} not found'.")
+            raise ValueError(f"Relation '{name} not found'")
         return self.relations[name]
     
     def selection(self, relName, condition):
@@ -92,7 +92,7 @@ class Processor:
         rel1 = self.get_relation(rel1Name)
         rel2 = self.get_relation(rel2Name)
         if(rel1.attr != rel2.attr):
-            raise ValueError("Relations must have the same attributes to do an intersection operation.")
+            raise ValueError("Relations must have the same attributes to do an intersection operation")
         
         rel2_set = set(tuple(row) for row in rel2.tuples)
         commons = []
@@ -137,7 +137,7 @@ class Processor:
         rel2 = self.get_relation(rel2Name)
 
         if(rel1.attr != rel2.attr):
-            raise ValueError("Relations must have the same attributes to do a union operations.")
+            raise ValueError("Relations must have the same attributes to do a union operations")
 
         allPairs = rel1.tuples + rel2.tuples
         uniquePairs = []
@@ -293,8 +293,8 @@ def _parse_and_run(cpu: Processor, query):
             rORq = match.group(2).strip()
             if(rORq.startswith("(") or any(op in rORq for op in ops)):
                 nestedResult = _parse_and_run(cpu, rORq)
+                # temp = "=={query}=="
                 temp = f"temp_{len(cpu.relations)}"
-                # temp = f"temp_{len(cpu.relations)}"
                 # rel = Relation(temp, nestedResult.attr, nestedResult.tuples)
                 # rel.source_name = nestedResult.name if hasattr(nestedResult, "name") else temp
                 # cpu.add_relation(rel)
@@ -313,7 +313,9 @@ def _parse_and_run(cpu: Processor, query):
             rORq = match.group(2).strip()
             if(rORq.startswith("(") or any(op in rORq for op in ops)):
                 nestedResult = _parse_and_run(cpu, rORq)
-                temp = f"temp_{len(cpu.relations)}"
+                # query = query.strip()
+                
+                temp = query
                 # temp = f"temp_{len(cpu.relations)}"
                 # rel = Relation(temp, nestedResult.attr, nestedResult.tuples)
                 # rel.source_name = nestedResult.name if hasattr(nestedResult, "name") else temp
@@ -454,12 +456,12 @@ def main():
 
     except FileNotFoundError:
         #prints error if file cant be opened
-        print(f"ERROR - input.txt not found.")    
+        print(f"ERROR - input.txt not found")    
         quit()
     
     #parses text to relations and list of queries
     queryList, relations = parse_text(text)
-    print(f"Program has parsed {len(relations)} relations and {len(queryList)} queries.")
+    print(f"Program has parsed {len(relations)} relations and {len(queryList)} queries")
 
     for rel in relations:
         maker.add_relation(rel)
@@ -470,13 +472,13 @@ def main():
             result = run_query(maker, query)
             results.append(result)
         except Exception as e:
-            results.append(f"Error running query '{query}': {str(e)}.")
+            results.append(f"Error running query '{query}': {str(e)}")
 
     with open("output.txt", "w") as outputFile:
         for line in results:
             outputFile.write(str(line) + "\n\n")
     
-    print(f"SUCCESSFUL - output.txt has been filled with results.")
+    print(f"SUCCESSFUL - output.txt has been filled with results")
     
 if __name__ == "__main__":
     main()

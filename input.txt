@@ -32,3 +32,45 @@ Query: project SID, Name (select Age = 50 (Students))
 
 // Names of students with GPA > 10.5
 Query: project Name (select GPA > 10.5 (Students))
+
+
+
+Students2 (SID, Name, Age, GPA) = {
+  101222222, Ahmed, 50, 11.0
+  101444444, John, 30, 9.5
+  101555555, Mike, 25, 10.0
+  101748291, Mo, 22, 12.0
+  101331133, Layla, 25, 10.0
+}
+
+
+// Rows intersection between Students and Students2
+Query: Students2 intersection Students
+
+
+
+Students_3 (SID, Name, Age, GPA) = {
+  101938472, Siddig, 100, 12.0
+  101527384, Ahmed, 50, 11.0
+  101684293, Khalid, 25, 10.0
+  101472839, John, 30, 9.5
+  101395827, Mike, 25, 10.0
+  101748291, Mo, 22, 12.0
+  101619384, Layla, 25, 10.0
+}
+
+
+// Selection Example
+Query: select Name = 'Siddig' (Students_3)
+
+// Project Example
+Query: project Name (select GPA > 10.5 (Students_3))
+
+// Union Example
+Query: Students_3 union Students2
+
+// Intersection Example
+Query: Students_3 intersection Students2
+
+// Difference Example
+Query: Students_3 difference Students2
