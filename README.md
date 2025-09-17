@@ -19,9 +19,9 @@ Step 3:
     Open the output file
 
 # Relational Algebra Operations Supported
-Selection σ
-Projection π
-Join ⋈
-Union ⋃
-Intersection ∩
-Difference −
+Selection σ<br>
+Projection π<br>
+Join ⋈<br>
+Union ⋃<br>
+Intersection ∩<br>
+Difference −<br>
