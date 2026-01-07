@@ -1,6 +1,5 @@
 # Relational-Algebra-Query-Processor
 
-3005 bonus assignment  
 CLI program for processing relational algebra queries.
 
 ---
