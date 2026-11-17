@@ -2,6 +2,8 @@
 
 CLI program for processing relational algebra queries.
 
+![A relation from input.txt and the results of two queries on it](docs/example.png)
+
 ---
 
 ## Features

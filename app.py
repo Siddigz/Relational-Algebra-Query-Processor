@@ -76,10 +76,15 @@ class Processor:
         attrIndices = [relation.attrIndex[attr] for attr in attributes]
 
         result = []
+        seen = set()
 
         for row in relation.tuples:
             new = [row[i] for i in attrIndices]
-            result.append(new)
+            #a relation is a set, so projecting onto fewer columns drops repeated rows
+            key = tuple(new)
+            if(key not in seen):
+                seen.add(key)
+                result.append(new)
 
         return Relation(f"project_{','.join(attributes)}({relName})", attributes, result)
 
@@ -284,7 +289,9 @@ def parse_text(text) -> tuple[list[str], list[Relation]]:
 
 def run_query(processor, query):
     query = query.strip()
-    return _parse_and_run(processor, query)
+    result = _parse_and_run(processor, query)
+    #labels every result with the query that produced it, e.g. "select Age > 30 (Employees1)"
+    return Relation(query, result.attr, result.tuples)
 
 def _parse_and_run(cpu: Processor, query):
     ops = ["select ", "project ", " join ", " union ", " intersection ", " difference "]
