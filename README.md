@@ -2,7 +2,10 @@
 
 CLI program for processing relational algebra queries.
 
-![A relation from input.txt and the results of two queries on it](docs/example.png)
+![A nested query drawn as a tree: Students3 and Students2 are unioned, filtered on GPA, then projected to Name and GPA, with the row count at each step](docs/query-tree.png)
+
+Nested queries are evaluated bottom-up, and every result is a set: above, the union drops a row that
+appears in both tables and the projection drops a repeated row.
 
 ---
 
@@ -90,6 +93,8 @@ Refer to the examples above to construct your queries in the CLI.
 
 3. **Open the output file**  
      View the results in the output file.
+
+     ![A relation from input.txt and the results of two queries on it](docs/example.png)
 
 ---
 
